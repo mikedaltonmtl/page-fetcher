@@ -20,11 +20,14 @@ const writeHtmlToFile = function() {
 
   request(url, (error, response, body) => {
       
-    // print the error if one occurred
-    console.log('request error:', error);
+    // print error message if given URL did not return data
+    if (error) {
+      console.log(`There was an error, the page '${error.hostname}' was not found.`);
+      return;
+    }
   
     // print the response status code if a response was received
-    console.log('statusCode:', response && response.statusCode);
+    // console.log('statusCode:', response && response.statusCode);
 
     // write the HTML to the given file
     fs.writeFile(path, body, err => {
@@ -71,7 +74,7 @@ fs.access(path, (err) => {
         console.log(`Operation failed, permission denied to overwrite ${path} denied.`);
       }
       readline.close(); // in both cases, close the interface
-      });
+    });
   }
 });
 
